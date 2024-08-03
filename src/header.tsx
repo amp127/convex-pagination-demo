@@ -4,7 +4,7 @@ export const Header = () => {
   return (
     <div className="header">
       <h1>Hello Tanstack Table!</h1>
-      <h2>powered by Convex</h2>
+      <h2>powered by <a href="https://convex.dev">Convex</a></h2>
       <div>
         <img src={convexLogo} alt="Convex Logo" width="50" height="50" />
       </div>
