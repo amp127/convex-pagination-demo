@@ -8,8 +8,6 @@ A modern company management application built with Next.js, Convex, TanStack Tab
 - 📊 Advanced table with pagination, search, and sorting
 - 🎨 Beautiful UI with shadcn/ui components
 - 🔄 Real-time data with Convex
-- 🎭 Smooth animations with Framer Motion
-- 🔐 Authentication with Clerk
 - 📱 Responsive design with Tailwind CSS
 
 ## Tech Stack
@@ -19,8 +17,6 @@ A modern company management application built with Next.js, Convex, TanStack Tab
 - **UI Components**: shadcn/ui
 - **Table**: TanStack Table
 - **Styling**: Tailwind CSS
-- **Authentication**: Clerk
-- **Animations**: Framer Motion
 - **Icons**: Lucide React
 
 ## Getting Started
@@ -34,8 +30,6 @@ A modern company management application built with Next.js, Convex, TanStack Tab
    Create a `.env.local` file with:
    ```
    NEXT_PUBLIC_CONVEX_URL=your_convex_url
-   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_key
-   CLERK_SECRET_KEY=your_clerk_secret
    ```
 
 3. **Start the development server**:
@@ -58,7 +52,6 @@ src/
 │   ├── layout.tsx         # Root layout
 │   └── page.tsx           # Home page
 ├── components/
-│   ├── auth/              # Authentication components
 │   ├── hooks/             # Custom hooks
 │   ├── shared/            # Shared components
 │   └── ui/                # shadcn/ui components
