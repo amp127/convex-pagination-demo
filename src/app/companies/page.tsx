@@ -3,7 +3,7 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Building2, Database, Zap, ChevronLeft, ChevronRight, ArrowRight, RotateCcw } from 'lucide-react'
+import { Building2, Database, Zap, ArrowRight, RotateCcw } from 'lucide-react'
 import Link from 'next/link'
 import { useQuery } from 'convex/react'
 import { api } from '../../../convex/_generated/api'
@@ -15,17 +15,6 @@ export default function CompaniesIndexPage() {
     <div className="container mx-auto px-4 py-8" style={{ pointerEvents: 'auto' }}>
       <div className="flex justify-between items-center mb-8">
         <div className="flex items-center space-x-4">
-          <Link
-            href="/dashboard"
-            className="flex items-center text-blue-600 hover:text-blue-800 transition-colors cursor-pointer group"
-          >
-            <ChevronLeft
-              className="w-4 h-4 mr-1 group-hover:transform group-hover:-translate-x-1 transition-transform"
-              aria-hidden="true"
-              aria-label="Previous page"
-            />
-            Back to Dashboard
-          </Link>
           <div className="flex flex-col">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white cursor-default">
               Pagination Testing

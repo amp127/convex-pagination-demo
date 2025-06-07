@@ -1,4 +1,4 @@
-import { FaGithub } from 'react-icons/fa';
+import { Github } from 'lucide-react';
 
 function Footer() {
   return (
@@ -9,7 +9,7 @@ function Footer() {
         rel="noopener noreferrer"
         className="github-link"
       >
-        <FaGithub size={48} /> Source code on GitHub 🫀
+        <Github size={48} /> Source code on GitHub 🫀
       </a>
     </footer>
   );

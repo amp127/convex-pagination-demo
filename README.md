@@ -180,7 +180,6 @@ src/
 │   │   ├── stable-native/          # Anti-flicker wrapper
 │   │   ├── manual-pagination/      # Direct useQuery control
 │   │   └── nextprev-pagination/    # State machine approach
-│   ├── dashboard/                  # Dashboard page
 │   ├── layout.tsx                  # Root layout
 │   └── page.tsx                    # Home page
 ├── components/
@@ -264,12 +263,110 @@ const results = useQuery(
 );
 ```
 
+## 🔍 State Management Pattern Analysis
+
+This project demonstrates different approaches to handling state synchronization and data consistency. Understanding these patterns helps you choose the right approach for your use case.
+
+### **`useStableQuery` vs `useBufferedState`** - Two Different State Management Philosophies
+
+#### **`useStableQuery`** - Anti-Flicker for Convex Queries
+
+**Purpose**: Prevents UI flicker during Convex query reloads by maintaining previous data while new data loads.
+
+**How it works**:
+```typescript
+// Keeps previous data visible while new data loads
+const result = useQuery(api.companies.list, { search })
+const stored = useRef(result)
+
+if (result !== undefined) {
+  stored.current = result // Only update when fresh data arrives
+}
+
+return stored.current // Returns stale data during loading, fresh data when ready
+```
+
+**Use case**: You have a table that flickers empty when filters change because `useQuery` returns `undefined` while loading.
+
+**Result**: 
+- ✅ No flicker - users see previous data during reloads
+- ✅ Smooth transitions 
+- ✅ Better UX during loading states
+
+#### **`useBufferedState`** - Manual State Synchronization with Diff Detection
+
+**Purpose**: Provides manual control over when to sync state changes, with diff detection to show what changed.
+
+**How it works**:
+```typescript
+// Gives you control over when to apply upstream changes
+const { currentVal, diff, sync } = useBufferedState(
+  upstreamData,
+  (oldVal, newVal) => calculateDiff(oldVal, newVal)
+)
+
+// currentVal = your current local state
+// diff = what changed between current and upstream  
+// sync() = manually apply upstream changes
+```
+
+**Use case**: You want to show users what changed and let them decide when to apply updates (like a "refresh to see new data" pattern).
+
+**Result**:
+- ✅ Manual control over updates
+- ✅ Diff detection shows what changed
+- ✅ User-controlled synchronization
+
+### 🎯 **When to Use Each Pattern**
+
+| Scenario | Use `useStableQuery` | Use `useBufferedState` |
+|----------|---------------------|----------------------|
+| **Auto-updating tables** | ✅ Perfect - prevents flicker | ❌ Too manual |
+| **Real-time data with user control** | ❌ Too automatic | ✅ Perfect - manual sync |
+| **Form data vs server data** | ❌ Not designed for this | ✅ Great for showing conflicts |
+| **Simple anti-flicker** | ✅ Ideal solution | ❌ Overkill |
+| **"New data available" notifications** | ❌ No diff detection | ✅ Perfect with diff |
+
+### 💡 **Practical Examples**
+
+#### `useStableQuery` Example:
+```typescript
+// Before: Table flickers empty during search
+const companies = useQuery(api.companies.search, { query })
+// companies = undefined while loading → empty table flicker
+
+// After: Table shows previous results during search  
+const companies = useStableQuery(api.companies.search, { query })
+// companies = previous results while loading → no flicker
+```
+
+#### `useBufferedState` Example:
+```typescript
+// Real-time data that user controls when to see
+const liveData = useQuery(api.dashboard.stats)
+const { currentVal: displayedStats, diff, sync } = useBufferedState(
+  liveData,
+  (old, new) => ({ newAlerts: new.alerts - old.alerts })
+)
+
+// Show notification: "3 new alerts available" with refresh button
+// User clicks refresh → sync() applies the new data
+```
+
+### 🔄 **Pattern Summary**
+
+- **`useStableQuery`**: Automatic anti-flicker for smooth UX - used in this project&apos;s Stable + Native Pagination
+- **`useBufferedState`**: Manual state control with change detection - available but not currently implemented in the demo
+
+Both solve different problems around data synchronization, but `useStableQuery` is focused on seamless automatic updates while `useBufferedState` gives you manual control over when changes are applied.
+
 ## 📚 Related Resources
 
 - [Convex Pagination Documentation](https://docs.convex.dev/database/pagination)
 - [TanStack Table Documentation](https://tanstack.com/table)
 - [Convex React Documentation](https://docs.convex.dev/client/react)
 - [shadcn/ui Components](https://ui.shadcn.com/)
+- [Convex Stack: Help, My App is Overreacting](https://stack.convex.dev/help-my-app-is-overreacting) - Source of stable query pattern
 
 ## 🚀 Deployment
 

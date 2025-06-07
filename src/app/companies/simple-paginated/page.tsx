@@ -432,17 +432,6 @@ export default function CompaniesSimplePaginatedPage() {
     <div className="container mx-auto px-4 py-8" style={{ pointerEvents: 'auto' }}>
       <div className="flex justify-between items-center mb-8">
         <div className="flex items-center space-x-4">
-          <Link
-            href="/dashboard"
-            className="flex items-center text-blue-600 hover:text-blue-800 transition-colors cursor-pointer group"
-          >
-            <ChevronLeft
-              className="w-4 h-4 mr-1 group-hover:transform group-hover:-translate-x-1 transition-transform"
-              aria-hidden="true"
-              aria-label="Previous page"
-            />
-            Back to Dashboard
-          </Link>
           <div className="flex flex-col">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white cursor-default">
               Companies (Custom Pagination)
